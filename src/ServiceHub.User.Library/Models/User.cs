@@ -12,7 +12,7 @@ namespace ServiceHub.User.Library.Models
         /// <value>List of all valid genders in uppercase</value>
         /// <remarks>Convert a gender string to uppercase before comparing with this list</remarks>
         [IgnoreDataMember]
-        public static readonly string[] ValidUppercaseGenders = { "M", "F"};
+        public static readonly string[] ValidUppercaseGenders = { "M", "F" };
 
         /// <value>List of all valid user types in uppercase</value>
         /// <remarks>Convert a user type string to uppercase before comparing with this list</remarks>
