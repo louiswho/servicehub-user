@@ -13,6 +13,7 @@
     <PackageReference Include="microsoft.applicationinsights" Version="2.5.1" />
     <PackageReference Include="microsoft.applicationinsights.aspnetcore" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="MongoDB.Driver" Version="2.6.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="newtonsoft.json" Version="11.0.2" />
   </ItemGroup>
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ServiceHub.User.Context\ServiceHub.User.Context.csproj" />
     <ProjectReference Include="..\ServiceHub.User.Library\ServiceHub.User.Library.csproj" />
   </ItemGroup>
 
