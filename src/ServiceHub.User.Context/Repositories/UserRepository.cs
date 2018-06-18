@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ServiceHub.User.Context.Repositories
 {
@@ -24,18 +25,18 @@ namespace ServiceHub.User.Context.Repositories
         /// Insert new user into the data source.
         /// </summary>
         /// <param name="user">The user to insert.</param>
-        public void Insert(Context.Models.User user)
+        public async Task InsertAsync(Context.Models.User user)
         {
-            _users.InsertOne(user);
+            await _users.InsertOneAsync(user);
         }
 
         /// <summary>
         /// Get all the users.
         /// </summary>
         /// <returns>All the users.</returns>
-        public List<Context.Models.User> Get()
+        public async Task<List<Context.Models.User>> GetAsync()
         {
-            return _users.AsQueryable().ToList();
+            return await _users.AsQueryable().ToListAsync();
         }
 
         /// <summary>
@@ -44,41 +45,42 @@ namespace ServiceHub.User.Context.Repositories
         /// <param name="id">The user's unique Id</param>
         /// <returns>The user with the given Id, 
         /// or null if no user was found with that Id.</returns>
-        public Context.Models.User GetById(Guid id)
+        public async Task<Context.Models.User> GetByIdAsync(Guid id)
         {
-            return _users.AsQueryable().FirstOrDefault(x => x.UserId == id);
+            return await _users.Aggregate().Match(x => x.UserId == id)
+                                           .FirstOrDefaultAsync();
         }
 
         /// <summary>
         /// Updates the user's Address and/or Location based on their Id.
         /// </summary>
         /// <param name="user">The user to update.</param>
-        public void Update(Context.Models.User user)
+        public async Task UpdateAsync(Context.Models.User user)
         {
             var filter = Builders<Context.Models.User>.Filter.Eq(x => x.UserId, user.UserId);
             var update = Builders<Context.Models.User>.Update
                 .Set(x => x.Address, user.Address)
                 .Set(x => x.Location, user.Location);
-            _users.UpdateOneAsync(filter, update);
+            await _users.UpdateOneAsync(filter, update);
         }
 
         /// <summary>
         /// Deletes the given user from the data source, if they exist.
         /// </summary>
         /// <param name="id">The Id of the user to delete.</param>
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var filter = Builders<Context.Models.User>.Filter.Eq(x => x.UserId, id);
-            _users.DeleteOne(filter);
+            await _users.DeleteOneAsync(filter);
         }
 
         /// <summary>
         /// Deletes all users from the data source.
         /// </summary>
-        public void DeleteAll()
+        public async Task DeleteAllAsync()
         {
             var filter = Builders<Context.Models.User>.Filter.Where(x => true);
-            _users.DeleteMany(filter);
+            await _users.DeleteManyAsync(filter);
         }
     }
 }
