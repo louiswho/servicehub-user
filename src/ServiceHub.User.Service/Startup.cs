@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,13 +23,14 @@ namespace ServiceHub.User.Service
 
             services.AddMvc();
 
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
-            services.AddSingleton(mc =>
-                new MongoClient(connectionString)
-                    .GetDatabase("userdb")
-                    .GetCollection<User.Context.Models.User>("users")
-            );
+            services.AddSingleton<IMongoCollection<Context.Models.User>>(mongoCollection =>
+            {
+                return new MongoClient(connectionString)
+                .GetDatabase("userdb")
+                .GetCollection<Context.Models.User>("users");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
