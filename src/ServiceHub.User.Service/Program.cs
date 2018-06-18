@@ -13,7 +13,7 @@ namespace ServiceHub.User.Service
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                DbSeeder.Initialize(services);
+                DbSeeder.InitializeAsync(services).Wait();
             }
             host.Run();
         }
