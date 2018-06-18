@@ -12,10 +12,11 @@ namespace ServiceHub.User.Service
 {
     public static class DbSeeder
     {
-        public static async void Initialize(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetRequiredService<IUserRepository>();
-            if (context.GetAsync() == null || !context.GetAsync().Result.Any())
+            var currentUsers = await context.GetAsync();
+            if (currentUsers == null || currentUsers.Count == 0)
             {
                 try
                 {
