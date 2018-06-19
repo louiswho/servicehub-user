@@ -14,7 +14,7 @@ namespace ServiceHub.User.Testing.Service
 {
     public class UserControllerTests
     {
-        private List<User.Context.Models.User> contextUsers;
+        private readonly List<User.Context.Models.User> contextUsers;
 
         /// <summary>
         /// Set up test users
@@ -73,7 +73,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void ValidGet_ShouldReturn200_AndList()
+        public async Task ValidGet_ShouldReturn200_AndList()
         {
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(x => x.GetAsync()).ReturnsAsync(contextUsers);
@@ -100,7 +100,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void InvalidGet_ShouldReturn500()
+        public async Task InvalidGet_ShouldReturn500()
         {
             var mockRepo = new Mock<IUserRepository>();
             // Make user list invalid
@@ -120,7 +120,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void ValidGetById_Return200_And_Model()
+        public async Task ValidGetById_Return200_And_Model()
         {
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(((Guid y) => contextUsers.First(z => z.UserId == y)));
@@ -143,14 +143,14 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void InValidGetById_Return404()
+        public async Task InValidGetById_Return404()
         {
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(((Guid y) => contextUsers.First(z => z.UserId == y)));
 
             UserController controller = new UserController(mockRepo.Object, new LoggerFactory());
 
-            NotFoundObjectResult result = await controller.Get(new Guid()) as NotFoundObjectResult;
+            NotFoundObjectResult result = await controller.Get(Guid.Empty) as NotFoundObjectResult;
 
             Assert.NotNull(result);
             Assert.Equal(404, result.StatusCode);
@@ -165,7 +165,7 @@ namespace ServiceHub.User.Testing.Service
         [InlineData("F", "Sophie")]
         [InlineData("f", "Sophie")]
         [Trait("Type", "Controller")]
-        public async void ValidGetByGender_Returns200_List(string gender, string firstName)
+        public async Task ValidGetByGender_Returns200_List(string gender, string firstName)
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
@@ -192,7 +192,7 @@ namespace ServiceHub.User.Testing.Service
         [InlineData("ASSOCIATE")]
         [InlineData("aSsOcIaTe")]
         [Trait("Type", "Controller")]
-        public async void GetByType_ValidTypes_Return200AndList(string type)
+        public async Task GetByType_ValidTypes_Return200AndList(string type)
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
@@ -216,7 +216,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void InValidGender_Returns400()
+        public async Task InValidGender_Returns400()
         {
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(x => x.GetAsync()).ReturnsAsync(contextUsers);
@@ -234,7 +234,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void ValidPut_Returns204()
+        public async Task ValidPut_Returns204()
         {
             var mockRepo = new Mock<IUserRepository>();
 
@@ -270,7 +270,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void InvalidPut_Returns400()
+        public async Task InvalidPut_Returns400()
         {
             var mockRepo = new Mock<IUserRepository>();
 
@@ -309,7 +309,7 @@ namespace ServiceHub.User.Testing.Service
         [InlineData(null)]
         [InlineData("notvalid")]
         [Trait("Type", "Controller")]
-        public async void GetByType_InvalidTypes_Return400(string type)
+        public async Task GetByType_InvalidTypes_Return400(string type)
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
@@ -329,7 +329,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void Post_ValidlUser_Returns202()
+        public async Task Post_ValidlUser_Returns202()
         {
             var mockRepo = new Mock<IUserRepository>();
             var libraryUser = new User.Library.Models.User();
@@ -366,7 +366,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void Post_NullUser_Return400()
+        public async Task Post_NullUser_Return400()
         {
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(m => m.InsertAsync(null));
@@ -384,7 +384,7 @@ namespace ServiceHub.User.Testing.Service
         /// </summary>
         [Fact]
         [Trait("Type", "Controller")]
-        public async void Post_InvalidUser_Return400()
+        public async Task Post_InvalidUser_Return400()
         {
             var mockRepo = new Mock<IUserRepository>();
 

@@ -61,8 +61,7 @@ namespace ServiceHub.User.Library.Models
             { return false; }
             if (AddressId == Guid.Empty) { return false; }
             if (Address1 == "" || Address1.Length > MaxStringLength) { return false; }
-            if (Address2 != null)
-                if (Address2.Length > MaxStringLength) { return false; }
+            if (Address2 != null && Address2.Length > MaxStringLength) { return false; }
             if (City == "" || City.Length > MaxStringLength) { return false; }
             if (State == "" || State.Length > MaxStringLength) { return false; }
             if (PostalCode == "" || PostalCode.Length > MaxStringLength) { return false; }

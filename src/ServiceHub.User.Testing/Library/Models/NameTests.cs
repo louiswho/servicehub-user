@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 using ServiceHub.User.Library.Models;
 
@@ -45,7 +45,7 @@ namespace ServiceHub.User.Testing.Library.Models
         {
             //Arrange
             Name name = ControlName;
-            name.NameId = new Guid();
+            name.NameId = Guid.Empty;
 
             //Act
             var result = name.Validate();

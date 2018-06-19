@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Xunit;
 using ServiceHub.User.Library.Models;
@@ -8,15 +8,13 @@ namespace ServiceHub.User.Testing.Library.Models
     public class AddressTests
     {
         /// <value> Field for an Address to be tested.</value>
-        Address _address;
+        readonly Address _address;
 
         #region Test Data
         /// <value> A string over the max length for Name. </value>
         readonly string OversizedString = new string('A', 256);
         /// <value> A string of max length for Name. </value>
         readonly string MaxLengthString = new string('A', 255);
-        /// <value> A string of minimum size for Name. </value>
-        readonly string SingleCharacterString = new string('A', 1);
 
         /// <value> A generic name that will serve as the baseline for the tests. </value>
         readonly Address ControlAddress = new Address()
